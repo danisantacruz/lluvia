@@ -1,6 +1,6 @@
 orden,capa,filas
-1,Bronce (registros crudos),17096303
-2,Plata (limpios y sin sensor duplicado),14856865
-3,Oro (estación-día),100766
-4,Oro (días válidos de estaciones confiables),83110
-5,Tabla del modelo diario,66478
+1,Bronce (registros crudos),17335563
+2,Plata (sin duplicados),15040935
+3,Oro (estación-día),102063
+4,Oro (días válidos),84348
+5,Tabla del modelo diario,67460

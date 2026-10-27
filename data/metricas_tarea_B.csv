@@ -1,0 +1,5 @@
+,MAE (días),RMSE (días),Acierto ±1 día
+Climatología,2.03,2.583,0.408
+Persistencia (semana anterior),1.354,1.895,0.62
+Random Forest semanal,1.596,2.051,0.409
+Modelo diario sumado,1.263,1.607,0.474

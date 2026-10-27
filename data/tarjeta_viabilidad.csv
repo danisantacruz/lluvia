@@ -1,0 +1,9 @@
+criterio,valor,umbral,meta,cumple
+Registros crudos procesados,17335563.0,1000000.0,≥ 1 millón,✅
+Estaciones útiles (≥ 1 año válido),90.0,20.0,≥ 20,✅
+Departamentos con estaciones útiles,4.0,4.0,los 4,✅
+Completitud diaria (mediana),0.43,0.7,"≥ 0,70",⚠️
+Registros válidos tras limpieza,0.868,0.9,"≥ 0,90",⚠️
+AUC diaria − mejor línea base,0.101,0.0001,> 0,✅
+MAE semanal: mejora vs climatología,0.378,0.05,≥ 5 %,✅
+MAE semanal: mejora vs persistencia,0.067,0.0,≥ 0 (igualar o superar),✅

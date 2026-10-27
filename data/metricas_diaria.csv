@@ -1,4 +1,4 @@
 metodo,exactitud,f1_lluvia,auc,brier
-Climatología,0.630,0.495,0.630,0.244
-Persistencia,0.680,0.576,0.659,0.320
-Random Forest,0.703,0.560,0.756,0.188
+Climatología,0.634,0.49,0.632,0.242
+Persistencia,0.684,0.571,0.659,0.316
+Random Forest,0.706,0.553,0.76,0.185
