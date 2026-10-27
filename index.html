@@ -180,7 +180,7 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
     <span class="dash-skeleton dep-mark" data-source="estaciones_utiles" data-field="estaciones_utiles">—</span> estaciones útiles y
     <span class="dash-skeleton dep-mark" data-source="volumen" data-field="registros">—</span> registros crudos.
   </p>
-  <p class="note">Corrida del notebook 01 del 24 de octubre de 2026 con las correcciones de calidad · datos de enero de 2020 al 23 de octubre de 2026 · entrenamiento hasta junio de 2025, prueba desde el 1 de julio de 2025.</p>
+  <p class="note">Corrida del notebook 01 del 26 de octubre de 2026 con las correcciones de calidad · datos de enero de 2020 al 25 de octubre de 2026 · entrenamiento hasta junio de 2025, prueba desde el 1 de julio de 2025.</p>
 
   <div class="toolbar">
     <div class="chips" id="chips" role="group" aria-label="Departamento"></div>
@@ -279,7 +279,7 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
       </div>
       <div class="card">
         <h3>La ventaja del modelo se mantiene de lunes a domingo</h3>
-        <p class="note">AUC según los días que faltan desde el domingo en que se predice. Valores aproximados, leídos de la gráfica del notebook; se reemplazan con la exportación de la sección 9.</p>
+        <p class="note">AUC según los días que faltan desde el domingo en que se predice.</p>
         <div id="horizonte" class="chart" data-source="auc_horizonte"></div>
       </div>
       <div class="card">
@@ -309,13 +309,13 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
       </div>
       <div class="card">
         <h3>Volumen y cortes por departamento</h3>
-        <p class="note">Cortes: veces que una estación pasó más de 3 horas sin reportar (medido antes de quitar el sensor duplicado). En esta corrida el Valle no tiene datos desde el 24 de julio de 2026 porque el IDEAM cambió cómo escribe su nombre; el notebook ya lo corrige. Toquen una fila para enfocar el tablero.</p>
+        <p class="note">Cortes: veces que una estación pasó más de 3 horas sin reportar (medido antes de quitar el sensor duplicado). Toquen una fila para enfocar el tablero.</p>
         <table id="tabla-volumen" data-source="volumen" data-row-key="departamento">
           <thead><tr><th data-field="departamento">Departamento</th><th data-field="registros">Registros</th><th data-field="estaciones">Estaciones</th><th data-field="cortes_3h">Cortes &gt; 3 h</th></tr></thead>
           <tbody></tbody>
         </table>
         <h3 style="margin-top: var(--cds-gap-lg)">Estaciones útiles por departamento</h3>
-        <p class="note">Útil = al menos 1 año de días válidos, sin sensor pegado en 0 mm (7 estaciones excluidas).</p>
+        <p class="note">Útil = al menos 1 año de días válidos, sin sensor pegado en 0 mm.</p>
         <table id="tabla-utiles" data-source="estaciones_utiles" data-row-key="departamento">
           <thead><tr><th data-field="departamento">Departamento</th><th data-field="estaciones">Con días válidos</th><th data-field="estaciones_utiles">Útiles</th></tr></thead>
           <tbody></tbody>
