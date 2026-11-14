@@ -13,7 +13,8 @@
     auc_horizonte: 'auc_horizonte.csv',
     estaciones_utiles: 'estaciones_utiles.csv',
     pronostico: 'pronostico_semana.csv',
-    verificacion: 'verificacion_semanas.csv'
+    verificacion: 'verificacion_semanas.csv',
+    confianza: 'confianza.csv'
   };
   const PARAMETROS_INICIALES = { depto: null, mes: new Date().getMonth() + 1 };
 
