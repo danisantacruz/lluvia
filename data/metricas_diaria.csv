@@ -1,4 +1,5 @@
 metodo,exactitud,f1_lluvia,auc,brier
+Siempre seco,0.611,0.0,0.5,0.389
 Climatología,0.619,0.492,0.618,0.25
 Persistencia,0.668,0.568,0.649,0.332
-Random Forest,0.691,0.549,0.74,0.194
+Random Forest,0.692,0.556,0.734,0.197
