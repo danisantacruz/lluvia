@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lluvia Pacífico y Andina</title>
-<meta name="description" content="Predicción de días con y sin lluvia en Nariño, Cauca, Valle del Cauca y Chocó con datos del IDEAM y Apache Spark. Proyecto integrador, Especialización en Big Data, Universidad CESMAG.">
+<meta name="description" content="Predicción de días con y sin lluvia efectiva (5 mm o más) en Nariño, Cauca, Valle del Cauca y Chocó con datos del IDEAM y Apache Spark. Proyecto integrador, Especialización en Big Data, Universidad CESMAG.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -154,19 +154,19 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
     <div class="kicker">Proyecto integrador · Especialización en Big Data · Universidad CESMAG</div>
     <p class="equipo">Daniel Cabrera · Daniel Santacruz · Juan Usamá — Docente: Mag. José Camilo Eraso</p>
     <div class="acerca">
-      <div class="paso"><b>El problema</b><p>Saber qué días de la semana serán secos permite planificar riego, siembra y uso del agua. Los datos existen, pero llegan crudos.</p></div>
+      <div class="paso"><b>El problema</b><p>Saber qué días de la semana tendrán lluvia efectiva (5 mm o más, la que deja agua útil para el cultivo) permite planificar riego, siembra y uso del agua. Los datos existen, pero llegan crudos.</p></div>
       <div class="paso"><b>Los datos</b><p>Precipitación de estaciones automáticas del IDEAM (datos.gov.co), medida cada 2 a 10 minutos, de 2020 a hoy.</p></div>
       <div class="paso"><b>El método</b><p>CRISP-DM con Apache Spark: ingesta, limpieza y agregación por capas (bronce, plata, oro) y modelos con Spark MLlib.</p></div>
-      <div class="paso"><b>El resultado</b><p>Para cada estación: probabilidad de lluvia de cada día de la semana siguiente y número de días secos esperados, comprobado con semanas reales.</p></div>
+      <div class="paso"><b>El resultado</b><p>Para cada estación: probabilidad de lluvia de cada día de la semana siguiente y número de días sin lluvia efectiva esperados, comprobado con semanas reales.</p></div>
     </div>
   </header>
 <div class="lx" id="lx">
-  <h1 id="titulo">Días con y sin lluvia · Nariño, Cauca, Valle del Cauca y Chocó</h1>
+  <h1 id="titulo">Días con y sin lluvia efectiva · Nariño, Cauca, Valle del Cauca y Chocó</h1>
   <p class="takeaway" id="conclusion-region">
-    El modelo supera a las dos líneas base en ambas tareas: predice la lluvia de cada día con un AUC de
+    El modelo supera a las dos líneas base en ambas tareas: predice la lluvia efectiva de cada día con un AUC de
     <span class="dash-skeleton" data-source="metricas_diaria" data-where="metodo=Random Forest" data-field="auc">—</span>
     (climatología: <span class="dash-skeleton" data-source="metricas_diaria" data-where="metodo=Climatología" data-field="auc">—</span>)
-    y cuenta los días secos de la semana con un error de
+    y cuenta los días sin lluvia efectiva de la semana con un error de
     <span class="dash-skeleton" data-source="metricas_semanal" data-where="metodo=Modelo diario sumado" data-field="mae_dias">—</span> días, frente a
     <span class="dash-skeleton" data-source="metricas_semanal" data-where="metodo=Persistencia (semana anterior)" data-field="mae_dias">—</span> de la semana anterior y
     <span class="dash-skeleton" data-source="metricas_semanal" data-where="metodo=Climatología" data-field="mae_dias">—</span> de la climatología.
@@ -174,7 +174,7 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
   <p class="takeaway" id="conclusion-depto" hidden>
     En <b class="dep-nombre"></b>, el modelo diario alcanza un AUC de
     <span class="dash-skeleton dep-mark" data-source="auc_departamento" data-field="auc_modelo">—</span>
-    frente a <span class="dash-skeleton dep-mark" data-source="auc_departamento" data-field="auc_climatologia">—</span> de la climatología, y cuenta los días secos de la semana con un error de
+    frente a <span class="dash-skeleton dep-mark" data-source="auc_departamento" data-field="auc_climatologia">—</span> de la climatología, y cuenta los días sin lluvia efectiva de la semana con un error de
     <span class="dash-skeleton dep-mark" data-source="mae_departamento" data-field="mae_modelo_diario">—</span> días (semana anterior:
     <span class="dash-skeleton dep-mark" data-source="mae_departamento" data-field="mae_persistencia">—</span>). Tiene
     <span class="dash-skeleton dep-mark" data-source="estaciones_utiles" data-field="estaciones_utiles">—</span> estaciones útiles y
@@ -205,16 +205,16 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
         <div class="sub">climatología: <span class="dash-skeleton" id="t-auc-clima" data-source="metricas_diaria" data-where="metodo=Climatología" data-field="auc">—</span> · 1 = perfecto, 0,5 = azar</div>
       </div>
       <div class="card tile">
-        <div class="label">Error en días secos por semana (MAE)</div>
+        <div class="label">Error en días sin lluvia efectiva por semana (MAE)</div>
         <div class="big dash-skeleton" id="t-mae" data-source="metricas_semanal" data-where="metodo=Modelo diario sumado" data-field="mae_dias">—</div>
         <div class="sub">días · semana anterior: <span class="dash-skeleton" id="t-mae-pers" data-source="metricas_semanal" data-where="metodo=Persistencia (semana anterior)" data-field="mae_dias">—</span></div>
       </div>
     </div>
   </section>
 
-  <section id="pronostico" data-paso="La predicción por estación: probabilidad de lluvia de cada día y días secos de la semana siguiente. Con «Comprobar» se ve cómo le fue al modelo en semanas reales que no conocía.">
+  <section id="pronostico" data-paso="La predicción por estación: probabilidad de lluvia efectiva de cada día y días sin lluvia efectiva de la semana siguiente. Con «Comprobar» se ve cómo le fue al modelo en semanas reales que no conocía.">
     <h2>La predicción por estación</h2>
-    <p class="note">Para cada estación y cada semana (lunes a domingo), el modelo da la probabilidad de lluvia de cada día —llueve si supera el umbral de su departamento, cercano al 50 %— y los días secos esperados, que son la suma de (1 − probabilidad) de los 7 días.</p>
+    <p class="note">Para cada estación y cada semana (lunes a domingo), el modelo da la probabilidad de lluvia efectiva (5 mm o más) de cada día —se pronostica lluvia efectiva si es del 50 % o más— y los días sin lluvia efectiva esperados, que son la suma de (1 − probabilidad) de los 7 días.</p>
     <div class="seg" role="group" aria-label="Qué mostrar">
       <button type="button" class="chip" data-modo="futuro">Semana siguiente</button>
       <button type="button" class="chip" data-modo="verificar">Comprobar con semanas reales</button>
@@ -252,19 +252,19 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
         <span class="mes-nombre" id="mes-nombre"></span>
       </div>
       <div class="semana" id="semana" aria-hidden="true"></div>
-      <div class="sim-big"><span class="dash-skeleton" id="sim-dias" data-source="semana_tipica" data-field="dias_secos">—</span> días secos de 7</div>
+      <div class="sim-big"><span class="dash-skeleton" id="sim-dias" data-source="semana_tipica" data-field="dias_secos">—</span> días sin lluvia efectiva de 7</div>
       <p class="sim-texto">En una semana típica de <b id="sim-mes"></b> en <b id="sim-dep"></b>, el
-        <span class="dash-skeleton" id="sim-pct" data-source="semana_tipica" data-field="pct_secos">—</span> % de los días tienen menos de 1 mm de lluvia (frecuencia histórica 2020–2026).</p>
+        <span class="dash-skeleton" id="sim-pct" data-source="semana_tipica" data-field="pct_secos">—</span> % de los días tienen menos de 5 mm de lluvia (frecuencia histórica 2020–2026).</p>
       <div id="sim-linea" class="chart clickable" data-source="semana_tipica" style="min-height: 150px"></div>
       <p class="note">Esta vista no es la predicción: es el promedio histórico de cada mes, la línea base que el modelo debe superar. Toquen un punto de la curva para cambiar de mes.</p>
     </div>
   </section>
 
-  <section id="estacionalidad" data-paso="Cuándo hay más días secos: Valle y Nariño tienen temporadas secas marcadas; el Chocó llueve casi todo el año.">
-    <h2>Cuándo hay más días secos</h2>
+  <section id="estacionalidad" data-paso="Cuándo hay más días sin lluvia efectiva, por mes y departamento.">
+    <h2>Cuándo hay más días sin lluvia efectiva</h2>
     <div class="card">
-      <h3>Valle y Nariño tienen temporadas secas marcadas; el Chocó llueve casi todo el año</h3>
-      <p class="note">Proporción de días con menos de 1 mm, por mes, 2020–2026. Más oscuro = más días secos. Toquen un departamento o un mes.</p>
+      <h3>Temporadas con y sin lluvia efectiva en cada departamento</h3>
+      <p class="note">Proporción de días con menos de 5 mm, por mes, 2020–2026. Más oscuro = más días sin lluvia efectiva. Toquen un departamento o un mes.</p>
       <div id="heatmap" class="chart" data-source="dias_secos_mes"></div>
     </div>
   </section>
@@ -274,7 +274,7 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
     <div class="grid">
       <div class="card">
         <h3>El modelo supera a la climatología en los 4 departamentos</h3>
-        <p class="note">AUC de la lluvia diaria en el periodo de prueba: punto azul = modelo, punto gris = climatología.</p>
+        <p class="note">AUC de la lluvia efectiva diaria en el periodo de prueba: punto azul = modelo, punto gris = climatología.</p>
         <div id="auc-chart" class="chart" data-source="auc_departamento"></div>
       </div>
       <div class="card">
@@ -283,22 +283,22 @@ body { background: var(--color-page); color: var(--color-fg); font-family: var(-
         <div id="horizonte" class="chart" data-source="auc_horizonte"></div>
       </div>
       <div class="card">
-        <h3>Lluvia de cada día de la próxima semana</h3>
+        <h3>Lluvia efectiva de cada día de la próxima semana</h3>
         <p class="note">Mejor valor en negrita. AUC y exactitud: más alto es mejor; Brier: más bajo es mejor.</p>
         <table id="tabla-diaria" data-source="metricas_diaria" data-row-key="metodo">
           <thead><tr><th data-field="metodo">Método</th><th data-field="exactitud">Exactitud</th><th data-field="f1_lluvia">F1 lluvia</th><th data-field="auc">AUC</th><th data-field="brier">Brier</th></tr></thead>
           <tbody></tbody>
         </table>
         <h3 style="margin-top: var(--cds-gap-lg)">Exactitud según qué tan seguro está el modelo</h3>
-        <p class="note">Como un pronóstico profesional: cuando el modelo da probabilidades lejanas del 50 %, acierta mucho más. Se compara con decir siempre "seco".</p>
+        <p class="note">Como un pronóstico profesional: cuando el modelo da probabilidades lejanas del 50 %, acierta mucho más. Se compara con decir siempre "sin lluvia efectiva".</p>
         <table id="tabla-confianza" data-source="confianza" data-row-key="nivel">
-          <thead><tr><th data-field="nivel">Días</th><th data-field="porcentaje de días">% de días</th><th data-field="exactitud modelo">Modelo</th><th data-field="exactitud 'siempre seco'">Siempre seco</th></tr></thead>
+          <thead><tr><th data-field="nivel">Días</th><th data-field="porcentaje de días">% de días</th><th data-field="exactitud modelo">Modelo</th><th data-field="exactitud 'siempre sin lluvia'">Siempre sin lluvia</th></tr></thead>
           <tbody></tbody>
         </table>
-        <h3 style="margin-top: var(--cds-gap-lg)">Días secos de la próxima semana</h3>
+        <h3 style="margin-top: var(--cds-gap-lg)">Días sin lluvia efectiva de la próxima semana</h3>
         <p class="note">Error medio en días (más bajo es mejor) y semanas acertadas con ±1 día. "Modelo diario sumado" suma las probabilidades diarias de los 7 días.</p>
         <table id="tabla-semanal" data-source="metricas_semanal" data-row-key="metodo">
-          <thead><tr><th data-field="metodo">Método</th><th data-field="mae_dias">MAE (días)</th><th data-field="rmse_dias">RMSE (días)</th><th data-field="acierto_1dia">Acierto ±1 día</th><th data-field="Semana seca sí/no">Semana seca sí/no</th></tr></thead>
+          <thead><tr><th data-field="metodo">Método</th><th data-field="mae_dias">MAE (días)</th><th data-field="rmse_dias">RMSE (días)</th><th data-field="acierto_1dia">Acierto ±1 día</th><th data-field="Semana con lluvia efectiva sí/no">¿Habrá lluvia efectiva?</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -371,7 +371,7 @@ dash.calc('totales', {
 dash.calc('semana_tipica', {
   inputs: ['dias_secos_mes'],
   title: 'Semana típica por mes',
-  description: 'Días secos esperados en 7 días = 7 × proporción histórica de días secos; "Región" es el promedio de los 4 departamentos.',
+  description: 'Días sin lluvia efectiva esperados en 7 días = 7 × proporción histórica; "Región" es el promedio de los 4 departamentos.',
   fn: (dias_secos_mes) => {
     const out = dias_secos_mes.map(r => ({
       departamento: r.departamento, mes: Number(r.mes),
@@ -564,7 +564,7 @@ function simulador() {
     svg.append('circle').attr('cx', x(r.mes)).attr('cy', y(r.dias_secos)).attr('r', sel ? 7 : 4)
       .attr('fill', sel ? 'var(--cds-chart-categorical-1)' : 'var(--cds-chart-categorical-2)').attr('class', 'clickable')
       .on('click', () => dash.setParams({mes: r.mes}))
-      .on('mousemove', e => showTip(e, [`${MESES.at(r.mes - 1)} · ${dep}`, `${f1(r.dias_secos)} días secos de 7`]))
+      .on('mousemove', e => showTip(e, [`${MESES.at(r.mes - 1)} · ${dep}`, `${f1(r.dias_secos)} días sin lluvia efectiva de 7`]))
       .on('mouseleave', hideTip);
     if (sel) svg.append('text').attr('x', x(r.mes)).attr('y', y(r.dias_secos) - 12).attr('text-anchor', 'middle').attr('font-size', 12)
       .attr('fill', 'var(--color-fg)').text(f1(r.dias_secos));
@@ -616,7 +616,7 @@ function heatmap() {
       .attr('fill', 'var(--cds-chart-categorical-2)').attr('fill-opacity', op(r.p) * (apagado ? 0.25 : 1))
       .attr('stroke', r.mes === mes() && !apagado ? 'var(--cds-chart-categorical-1)' : 'none').attr('stroke-width', 2)
       .on('click', () => dash.setParams({depto: r.departamento, mes: r.mes}))
-      .on('mousemove', e => showTip(e, [`${r.departamento} · ${MESES.at(r.mes - 1)}`, `Días secos: ${fPct(r.p)}`]))
+      .on('mousemove', e => showTip(e, [`${r.departamento} · ${MESES.at(r.mes - 1)}`, `Sin lluvia efectiva: ${fPct(r.p)}`]))
       .on('mouseleave', hideTip);
     if (cellW >= 30) svg.append('text').attr('x', x + cellW / 2).attr('y', y + cellH / 2 + 4).attr('text-anchor', 'middle')
       .attr('font-size', 11).attr('pointer-events', 'none').attr('fill-opacity', apagado ? 0.4 : 1)
@@ -744,10 +744,10 @@ function prediccion() {
   select.value = estacionSel;
 
   document.getElementById('pron-titulo').textContent = m === 'futuro'
-    ? `Días secos esperados · ${lista.length} estaciones` : `Error por estación en la prueba · ${lista.length} estaciones`;
+    ? `Días sin lluvia efectiva esperados · ${lista.length} estaciones` : `Error por estación en la prueba · ${lista.length} estaciones`;
   document.getElementById('pron-nota').textContent = m === 'futuro'
-    ? 'Cada punto es una estación, ubicada por sus coordenadas. Más oscuro = más días secos esperados la semana siguiente. Toquen una estación.'
-    : 'Más oscuro = menor error al contar los días secos de la semana (semanas desde julio de 2025, que el modelo no vio al entrenar). Toquen una estación.';
+    ? 'Cada punto es una estación, ubicada por sus coordenadas. Más oscuro = más días sin lluvia efectiva esperados la semana siguiente. Toquen una estación.'
+    : 'Más oscuro = menor error al contar los días sin lluvia efectiva de la semana (semanas desde julio de 2025, que el modelo no vio al entrenar). Toquen una estación.';
 
   // mapa
   const el = document.getElementById('pron-mapa');
@@ -768,7 +768,7 @@ function prediccion() {
       .attr('stroke', es ? 'var(--cds-chart-categorical-1)' : 'var(--color-panel)').attr('stroke-width', es ? 3 : 1)
       .on('click', () => { estacionSel = e.cod; semanaSel = null; prediccion(); })
       .on('mousemove', ev => showTip(ev, [e.nombre, `${e.municipio}, ${e.departamento}`,
-        m === 'futuro' ? `${f1(e.valor)} días secos esperados` : `Error medio: ${f1(e.valor)} días · ${e.rs.length} semanas`]))
+        m === 'futuro' ? `${f1(e.valor)} días sin lluvia efectiva esperados` : `Error medio: ${f1(e.valor)} días · ${e.rs.length} semanas`]))
       .on('mouseleave', hideTip);
   });
 
@@ -795,12 +795,12 @@ function prediccion() {
     const pp = document.createElement('span'); pp.className = 'p'; pp.textContent = fPct(p);
     const barra = document.createElement('div'); barra.className = 'barra';
     const bi = document.createElement('i'); bi.style.width = `${p * 100}%`; barra.appendChild(bi);
-    c.title = `${MESES_DIA.at(i)} ${fechaTxt(fecha(fila.inicio, i))}: probabilidad de lluvia ${fPct(p)}`;
+    c.title = `${MESES_DIA.at(i)} ${fechaTxt(fecha(fila.inicio, i))}: probabilidad de lluvia efectiva ${fPct(p)}`;
     c.append(nom, dd, circ, pp, barra);
     if (medido) {
       const r = document.createElement('div'); const bien = (seco ? 0 : 1) === o;
       r.className = `real ${bien ? 'ok' : 'mal'}`;
-      r.innerHTML = `real<br><b>${o === 1 ? 'lluvia' : 'seco'} ${bien ? '✓' : '✗'}</b>`;
+      r.innerHTML = `real<br><b>${o === 1 ? 'lluvia ef.' : 'sin lluvia'} ${bien ? '✓' : '✗'}</b>`;
       c.appendChild(r);
     }
     return c;
@@ -810,9 +810,9 @@ function prediccion() {
   const medidos = fila.o.filter(Number.isFinite).length;
   const aciertos = fila.p.filter((p, i) => Number.isFinite(fila.o[i]) && (p >= fila.u ? 1 : 0) === fila.o[i]).length;
   const items = m === 'futuro'
-    ? [['Días secos esperados', f1(fila.secos)], ['Días con lluvia previstos', `${fila.p.filter(p => p >= fila.u).length} de 7`]]
+    ? [['Días sin lluvia efectiva esperados', f1(fila.secos)], ['Días con lluvia efectiva previstos', `${fila.p.filter(p => p >= fila.u).length} de 7`]]
       .concat(medidos ? [['Días ya medidos acertados', `${aciertos} de ${medidos}`]] : [])
-    : [['Días secos predichos', f1(fila.secos)], ['Días secos reales', String(Math.round(fila.real))],
+    : [['Sin lluvia efectiva: predichos', f1(fila.secos)], ['Sin lluvia efectiva: reales', String(Math.round(fila.real))],
        ['Error de la semana', `${f1(Math.abs(fila.secos - fila.real))} días`], ['Días acertados', `${aciertos} de ${medidos}`]];
   document.getElementById('pron-resumen').replaceChildren(...items.map(([kk, v]) => {
     const b = document.createElement('div'); const a = document.createElement('div'); a.className = 'k'; a.textContent = kk;
@@ -831,7 +831,7 @@ function prediccion() {
       s2.append('text').attr('x', ml - 6).attr('y', y(t) + 4).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text(t);
     });
     s2.append('line').attr('x1', x(idx)).attr('x2', x(idx)).attr('y1', mt - 4).attr('y2', Hh - mb).attr('stroke', 'var(--cds-chart-axis)').attr('stroke-dasharray', '3 3');
-    s2.append('text').attr('x', ml).attr('y', 11).attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text('Días secos por semana:');
+    s2.append('text').attr('x', ml).attr('y', 11).attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text('Días sin lluvia efectiva:');
     s2.append('text').attr('x', ml + 140).attr('y', 11).attr('font-size', 11).attr('fill', 'var(--cds-chart-categorical-1)').text('● predicho');
     s2.append('text').attr('x', ml + 215).attr('y', 11).attr('font-size', 11).attr('fill', 'var(--cds-chart-categorical-2)').text('● real');
     [['real', 'var(--cds-chart-categorical-2)'], ['secos', 'var(--cds-chart-categorical-1)']].forEach(([campo, color]) => {
@@ -852,9 +852,9 @@ function prediccion() {
     const domingo = fecha(fila.inicio, -1);
     const base = fila.base && String(fila.base).slice(0, 10) !== `${domingo.getFullYear()}-${String(domingo.getMonth() + 1).padStart(2, '0')}-${String(domingo.getDate()).padStart(2, '0')}`
       ? ` Esta estación no reportó completo ese domingo: se usó su último día válido (${fechaTxt(fecha(fila.base))}).` : '';
-    ayuda.textContent = `Pronóstico hecho con los datos hasta el domingo ${fechaTxt(domingo)}.${base} Sol = probabilidad de lluvia menor al umbral del departamento (${fPct(fila.u)}).${medidos ? ' Los días que ya pasaron muestran lo que de verdad ocurrió.' : ''}`;
+    ayuda.textContent = `Pronóstico hecho con los datos hasta el domingo ${fechaTxt(domingo)}.${base} Sol = probabilidad de lluvia efectiva menor a ${fPct(fila.u)}.${medidos ? ' Los días que ya pasaron muestran lo que de verdad ocurrió.' : ''}`;
   } else {
-    ayuda.textContent = `En ${semanas.length} semanas de prueba, esta estación tuvo un error medio de ${f1(sel.valor)} días secos por semana y el modelo acertó el ${fPct(sel.acierto)} de los días (lluvia o seco). Usen ‹ › o toquen la gráfica para cambiar de semana.`;
+    ayuda.textContent = `En ${semanas.length} semanas de prueba, esta estación tuvo un error medio de ${f1(sel.valor)} días sin lluvia efectiva por semana y el modelo acertó el ${fPct(sel.acierto)} de los días (lluvia o seco). Usen ‹ › o toquen la gráfica para cambiar de semana.`;
   }
 }
 
@@ -897,8 +897,8 @@ dash.onData(() => {
   llenarMarcas();
   chips();
   tabla('tabla-diaria', 'metricas_diaria', [['metodo'], ['exactitud', f3], ['f1_lluvia', f3], ['auc', f3], ['brier', f3]], 'auc', false);
-  tabla('tabla-confianza', 'confianza', [['nivel'], ['porcentaje de días', fPct], ['exactitud modelo', fPct], ["exactitud 'siempre seco'", fPct]]);
-  tabla('tabla-semanal', 'metricas_semanal', [['metodo'], ['mae_dias', f3], ['rmse_dias', f3], ['acierto_1dia', fPct], ['Semana seca sí/no', v => Number.isFinite(v) ? fPct(v) : '—']], 'mae_dias', true);
+  tabla('tabla-confianza', 'confianza', [['nivel'], ['porcentaje de días', fPct], ['exactitud modelo', fPct], ["exactitud 'siempre sin lluvia'", fPct]]);
+  tabla('tabla-semanal', 'metricas_semanal', [['metodo'], ['mae_dias', f3], ['rmse_dias', f3], ['acierto_1dia', fPct], ['Semana con lluvia efectiva sí/no', v => Number.isFinite(v) ? fPct(v) : '—']], 'mae_dias', true);
   tabla('tabla-volumen', 'volumen', [['departamento'], ['registros', fInt], ['estaciones', fInt], ['cortes_3h', fInt]], null, false, true);
   tabla('tabla-utiles', 'estaciones_utiles', [['departamento'], ['estaciones', fInt], ['estaciones_utiles', fInt]], null, false, true);
   tabla('tabla-intervalos', 'intervalos', [['intervalo_min', fInt], ['estaciones', fInt], ['registros_dia', fInt]]);
