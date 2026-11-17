@@ -1,4 +1,4 @@
 nivel,porcentaje de días,exactitud modelo,exactitud 'siempre sin lluvia'
-Todos los días,1.0,0.81,0.764
-Seguro (p < 30 % o p > 70 %),0.779,0.86,0.822
-Muy seguro (p < 20 % o p > 80 %),0.537,0.895,0.848
+Todos los días,1.0,0.812,0.764
+Seguro (p < 30 % o p > 70 %),0.779,0.861,0.823
+Muy seguro (p < 20 % o p > 80 %),0.53,0.896,0.848
