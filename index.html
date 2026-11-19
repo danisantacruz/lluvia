@@ -12,7 +12,7 @@
   --font-anthropic-sans: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-anthropic-serif: 'Archivo', 'Source Sans 3', system-ui, sans-serif;
   --color-fg: #10212b; --color-fg-muted: #4a5a63; --color-bg: #ffffff; --color-page: #f3f6f5; --color-panel: #ffffff;
-  --brand: #0e3b4d; --brand-fg: #ffffff; --brand-muted: #9fd3e0; --mar: #e6f0f3; --tierra: #ffffff; --tierra-vecina: #eef1f0;
+  --brand: #0e3b4d; --brand-fg: #ffffff; --brand-muted: #9fd3e0; --mar: #e6f0f3; --tierra: #ffffff; --tierra-vecina: #e3e8e7; --tierra-region: #ffffff; --tierra-borde: #ffffff;
   --color-border-line: #e1e5e9; --color-ok: #1f7a4d; --color-warn: #9a6300; --color-bad: #b42318;
   --cds-font-size-caption: 13px; --cds-font-size-body: 16px; --cds-font-size-heading: 17px; --cds-font-size-title: 30px;
   --cds-font-weight-medium: 600;
@@ -30,7 +30,7 @@
     --color-fg: #e7eef1; --color-fg-muted: #a3b2ba; --color-bg: #0f171c; --color-page: #0b1216; --color-panel: #142028;
     --color-border-line: #26343d; --cds-chart-grid: #22303a; --cds-chart-axis: #6c7a84; --cds-chart-muted: #4f5f69;
     --cds-chart-categorical-1: #5bb3cc; --cds-chart-categorical-2: #e39b3a;
-    --brand: #0b2e3c; --mar: #10232c; --tierra: #1a2a33; --tierra-vecina: #131f26;
+    --brand: #0b2e3c; --mar: #10232c; --tierra: #1a2a33; --tierra-vecina: #16242c; --tierra-region: #22343e; --tierra-borde: #2b3c46;
     --cds-surface-popover: #1e242a; --cds-border: #343c45; --cds-text-secondary: #a5aeb8; color-scheme: dark;
   }
 }
@@ -38,7 +38,7 @@
   --color-fg: #e7eef1; --color-fg-muted: #a3b2ba; --color-bg: #0f171c; --color-page: #0b1216; --color-panel: #142028;
   --color-border-line: #26343d; --cds-chart-grid: #22303a; --cds-chart-axis: #6c7a84; --cds-chart-muted: #4f5f69;
   --cds-chart-categorical-1: #5bb3cc; --cds-chart-categorical-2: #e39b3a;
-  --brand: #0b2e3c; --mar: #10232c; --tierra: #1a2a33; --tierra-vecina: #131f26;
+  --brand: #0b2e3c; --mar: #10232c; --tierra: #1a2a33; --tierra-vecina: #16242c; --tierra-region: #22343e; --tierra-borde: #2b3c46;
   --cds-surface-popover: #1e242a; --cds-border: #343c45; --cds-text-secondary: #a5aeb8; color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -305,6 +305,7 @@ details.mas summary { cursor: pointer; font-weight: 600; color: var(--cds-chart-
         <span class="mes-nombre" id="mes-nombre"></span>
       </div>
       <div class="semana" id="semana" aria-hidden="true"></div>
+      <p class="note">Los íconos muestran cuántos días de cada 7, no cuáles: la climatología es un promedio del mes y da la misma probabilidad a todos los días. Saber qué día lloverá es lo que aporta el modelo.</p>
       <div class="sim-big"><span class="dash-skeleton" id="sim-dias" data-source="semana_tipica" data-field="dias_secos">—</span> días sin lluvia efectiva de 7</div>
       <p class="sim-texto">En una semana típica de <b id="sim-mes"></b> en <b id="sim-dep"></b>, el
         <span class="dash-skeleton" id="sim-pct" data-source="semana_tipica" data-field="pct_secos">—</span> % de los días tienen menos de 5 mm de lluvia (frecuencia histórica 2020–2026).</p>
@@ -417,9 +418,9 @@ details.mas summary { cursor: pointer; font-weight: 600; color: var(--cds-chart-
     <div class="pie-grid">
       <div>
         <h4>Equipo</h4>
-        <p>Juan Usamá · líder del proyecto e ingeniero de datos</p>
-        <p>Daniel Cabrera · científico de datos</p>
-        <p>Daniel Santacruz · analista de datos y visualización</p>
+        <p>Juan Usamá</p>
+        <p>Daniel Cabrera</p>
+        <p>Daniel Santacruz</p>
         <p>Docente: Mag. José Camilo Eraso</p>
       </div>
       <div>
@@ -427,13 +428,10 @@ details.mas summary { cursor: pointer; font-weight: 600; color: var(--cds-chart-
         <p>IDEAM – Datos Abiertos de Colombia: <a href="https://www.datos.gov.co/resource/s54a-sgyg.json">precipitación (s54a-sgyg)</a> y <a href="https://www.datos.gov.co/resource/hp9r-jxuu.json">catálogo de estaciones (hp9r-jxuu)</a>.</p>
         <p>Límites departamentales: DANE, Marco Geoestadístico Nacional 2018.</p>
       </div>
-      <div class="qr">
-        <img src="qr.png" alt="Código QR de este sitio">
-        <div>
-          <h4>Proyecto integrador</h4>
-          <p>Especialización en Big Data · Universidad CESMAG · 2026</p>
-          <p><a href="https://github.com/danisantacruz/lluvia">Código y datos en GitHub</a></p>
-        </div>
+      <div>
+        <h4>Proyecto integrador</h4>
+        <p>Especialización en Big Data · Universidad CESMAG · 2026</p>
+        <p><a href="https://github.com/danisantacruz/lluvia">Código y datos en GitHub</a></p>
       </div>
     </div>
   </footer>
@@ -717,15 +715,15 @@ function simulador() {
   const clave = `${dep}|${m}|${secos}`;
   if (semana.dataset.clave !== clave) {
   semana.dataset.clave = clave;
-  const orden = [3, 5, 1, 6, 0, 4, 2];
-  const esSeco = new Set(orden.slice(0, secos));
+  // La climatología es un promedio: dice cuántos días, no cuáles. Se dibujan primero los días sin lluvia efectiva.
+  const esSeco = new Set([0, 1, 2, 3, 4, 5, 6].slice(0, secos));
   semana.replaceChildren(...DIAS.map((dia, i) => {
     const c = document.createElement('div');
     c.className = `dia ${esSeco.has(i) ? 'seco' : 'lluvia'} anim`;
     c.style.animationDelay = `${i * 60}ms`;
     const circ = document.createElement('div'); circ.className = 'circ'; circ.style.animationDelay = `${i * 60}ms`;
     circ.innerHTML = esSeco.has(i) ? SOL : NUBE;
-    const lab = document.createElement('span'); lab.textContent = dia;
+    const lab = document.createElement('span'); lab.textContent = `${i + 1}`;
     c.append(circ, lab);
     return c;
   }));
@@ -939,11 +937,11 @@ function prediccion() {
   // mapa: contorno de los departamentos (DANE) y estaciones
   const el = document.getElementById('pron-mapa');
   el.replaceChildren();
-  const W = Math.max(280, el.clientWidth), H = Math.round(Math.min(440, Math.max(340, W * 1.05))), mg = 14;
+  const W = Math.max(280, el.clientWidth), H = Math.round(Math.min(560, Math.max(380, W * 1.2))), mg = 12;
   const region = (GEO ? GEO.features : []).filter(f => f.properties.region);
   const puntos = {type: 'MultiPoint', coordinates: est.map(e => [e.lon, e.lat])};
   const proj = d3.geoIdentity().reflectY(true).fitExtent([[mg, mg], [W - mg, H - mg]],
-    region.length ? {type: 'FeatureCollection', features: region} : puntos);
+    GEO && GEO.features.length ? GEO : puntos);
   const camino = d3.geoPath(proj);
   const op = m === 'futuro' ? d3.scaleLinear([0, 7], [0.15, 1]).clamp(true) : d3.scaleLinear([2.5, 0.5], [0.15, 1]).clamp(true);
   const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
@@ -951,24 +949,27 @@ function prediccion() {
   svg.append('rect').attr('width', W).attr('height', H).attr('rx', 8).attr('fill', 'var(--mar)');
   if (GEO) {
     svg.append('g').selectAll('path').data(GEO.features).join('path').attr('d', camino)
-      .attr('fill', f => f.properties.region ? 'var(--tierra)' : 'var(--tierra-vecina)')
-      .attr('stroke', f => f.properties.region ? 'var(--cds-chart-axis)' : 'var(--color-border-line)')
-      .attr('stroke-width', f => f.properties.region ? 1.1 : 0.8)
+      .attr('fill', f => f.properties.region ? 'var(--tierra-region)' : 'var(--tierra-vecina)')
+      .attr('stroke', f => f.properties.region ? 'var(--cds-chart-categorical-1)' : 'var(--tierra-borde)')
+      .attr('stroke-width', f => f.properties.region ? 1.2 : 0.6)
       .attr('opacity', f => (depto() && f.properties.region && f.properties.nombre !== depto()) ? 0.55 : 1);
     region.forEach(f => {
       const [cx, cy] = camino.centroid(f);
       const fuerte = !depto() || f.properties.nombre === depto();
-      svg.append('text').attr('x', cx).attr('y', cy).attr('text-anchor', 'middle').attr('font-size', 11.5).attr('font-weight', 700)
+      const [dx, dy, anc] = ({'Chocó': [-26, 0, 'end'], 'Valle del Cauca': [30, 0, 'start'], 'Cauca': [44, 22, 'start'], 'Nariño': [40, 34, 'start']})[f.properties.nombre] || [0, 0, 'middle'];
+      svg.append('text').attr('x', cx + dx).attr('y', cy + dy).attr('text-anchor', anc).attr('font-size', 10.5).attr('font-weight', 700)
         .attr('letter-spacing', '.06em').attr('fill', 'var(--color-fg-muted)').attr('opacity', fuerte ? 0.75 : 0.35)
         .attr('pointer-events', 'none').text(f.properties.nombre.toUpperCase());
     });
     svg.append('text').attr('x', mg + 6).attr('y', H - mg - 4).attr('font-size', 11).attr('font-style', 'italic')
       .attr('fill', 'var(--cds-chart-categorical-1)').attr('opacity', 0.8).text('Océano Pacífico');
+    svg.append('text').attr('x', W - mg - 6).attr('y', mg + 14).attr('text-anchor', 'end').attr('font-size', 11).attr('font-style', 'italic')
+      .attr('fill', 'var(--cds-chart-categorical-1)').attr('opacity', 0.8).text('Mar Caribe');
   }
   est.slice().sort((a, b) => (a.cod === estacionSel) - (b.cod === estacionSel)).forEach(e => {
     const apagado = depto() && e.departamento !== depto(), es = e.cod === estacionSel;
     const [x, y] = proj([e.lon, e.lat]);
-    svg.append('circle').attr('cx', x).attr('cy', y).attr('r', es ? 8 : 5.5).attr('class', 'clickable')
+    svg.append('circle').attr('cx', x).attr('cy', y).attr('r', es ? 7 : 4.2).attr('class', 'clickable')
       .attr('fill', 'var(--cds-chart-categorical-2)').attr('fill-opacity', Math.max(0.25, op(e.valor)) * (apagado ? 0.3 : 1))
       .attr('stroke', es ? 'var(--cds-chart-categorical-1)' : 'var(--color-panel)').attr('stroke-width', es ? 3 : 1.2)
       .on('click', () => { estacionSel = e.cod; semanaSel = null; prediccion(); })
